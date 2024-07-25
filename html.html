@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Add Bootstrap CSS link here (if not already included) -->
+  <link rel="stylesheet" href="path/to/bootstrap.css">
+  <title>Login or Sign Up</title>
+  <style>
+    body {
+      background-color: red;
+    }
+
+    .form-container {
+      border: 2px solid black;
+      padding: 20px;
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    .warning {
+      color: red;
+    }
+
+    .success {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 form-container">
+      <h2>Login or Sign Up</h2>
+
+      <?php
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Process the form data here
+
+        // Dummy logic to simulate success or failure
+        $selectedAction = $_POST['selectedAction'];
+        if ($selectedAction === 'signIn') {
+            // Your authentication logic for sign in
+            $response = "success"; // Change this based on your authentication logic
+        } elseif ($selectedAction === 'signUp') {
+            // Your registration logic for sign up
+            $response = "success"; // Change this based on your registration logic
+        } else {
+            $response = "fail";
+        }
+
+        // Display the response message
+        if ($response === "success") {
+          echo '<div id="successMessage" class="success">Login or Sign Up successful!</div>';
+        } elseif ($response === "fail") {
+          echo '<div id="warningMessage" class="warning">Login or Sign Up failed. Please try again.</div>';
+        }
+      }
+      ?>
+
+      <form action="" method="post" onsubmit="return validateForm()">
+        <label for="inputUsername">Username:</label>
+        <input type="text" id="inputUsername" name="username" class="form-control" required>
+        <br>
+
+        <label for="inputPassword">Password:</label>
+        <input type="password" id="inputPassword" name="password" class="form-control" required>
+        <br>
+
+        <label for="signIn">Sign In</label>
+        <input type="radio" id="signIn" name="action" value="signIn" checked>
+        
+        <label for="signUp">Sign Up</label>
+        <input type="radio" id="signUp" name="action" value="signUp">
+        <br>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <input type="hidden" id="selectedAction" name="selectedAction" value="signIn">
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+function validateForm() {
+  var username = document.getElementById("inputUsername").value;
+  var password = document.getElementById("inputPassword").value;
+  var warningMessage = document.getElementById("warningMessage");
+  var selectedAction = document.querySelector('input[name="action"]:checked').value;
+
+  if (!username.includes("@")) {
+    warningMessage.textContent = "Username must contain @ symbol";
+    return false;
+  } else if (username.trim() === "" || password.trim() === "") {
+    warningMessage.textContent = "Username and password cannot be empty";
+    return false;
+  } else {
+    warningMessage.textContent = "";
+    document.getElementById("selectedAction").value = selectedAction;
+    return true;
+  }
+}
+</script>
+
+<!-- Add Bootstrap JS and Popper.js scripts here (if needed) -->
+<script src="path/to/popper.js"></script>
+<script src="path/to/bootstrap.js"></script>
+</body>
+</html>
